@@ -27,10 +27,18 @@ else
 	$SASS --style=compressed --no-source-map --no-charset src/spc_player.scss dist/spc_player.css
 fi
 
+OPTIONS='-s NO_EXIT_RUNTIME -s ENVIRONMENT=web'
+INTERFACE='--pre-js  pre/interface.js'
+
+if [ "$2" = "--node" ]; then
+	OPTIONS='-s ENVIRONMENT=node'
+	INTERFACE=''
+fi
+
 [ $? -eq 0 ] \
 && $BABEL -o pre/spc_player.js src/spc_player.js \
 && $BABEL -o pre/interface.js src/interface.js \
-&& emcc $EMCC_FLAGS --pre-js pre/spc_player.js --pre-js pre/interface.js \
-	-s NO_EXIT_RUNTIME -s ENVIRONMENT=web -s "EXPORTED_FUNCTIONS=['_main', '_malloc', '_free', '_loadSPC', '_playSPC']" \
+&& emcc $EMCC_FLAGS --pre-js pre/spc_player.js $INTERFACE \
+	$OPTIONS -s "EXPORTED_FUNCTIONS=['_main', '_malloc', '_free', '_loadSPC', '_playSPC']" \
 	-I.. src/spc_player.c src/snes_spc/*cpp -o dist/spc.js \
 && cp src/spc_player.html dist

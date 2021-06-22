@@ -8,6 +8,8 @@
   ],
   "scripts": {
     "build": "./make.sh",
+    "build-node": "./make.sh --prod --node",
+    "build-node-dev": "./make.sh --dev --node",
     "build-dev": "./make.sh --dev"
   },
   "repository": {

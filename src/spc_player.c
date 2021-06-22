@@ -21,7 +21,7 @@ void error(const char* str)
 	if(str)
 	{
 		fprintf(stderr, "Error: %s\n", str);
-		EM_ASM(SMWCentral.SPCPlayer.Backend.status = -1);
+		EM_ASM(Module.SMWCentral.SPCPlayer.Backend.status = -1);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -39,9 +39,9 @@ int main(int argc, char** argv)
 	
 	EM_ASM({
 		try {
-			SMWCentral.SPCPlayer.Backend.initialize();
+			Module.SMWCentral.SPCPlayer.Backend.initialize();
 		}catch(error){
-			SMWCentral.SPCPlayer.Backend.status = -1;
+			Module.SMWCentral.SPCPlayer.Backend.status = -1;
 			console.error(error);
 		}
 	});

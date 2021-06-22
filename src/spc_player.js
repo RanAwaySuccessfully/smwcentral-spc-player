@@ -23,10 +23,16 @@
 (function()
 {
 
+if (!window) {
+	var window = { clearInterval, clearTimeout, setTimeout, Uint8Array, WebAssembly };
+	window.AudioContext = require("web-audio-engine").StreamAudioContext;
+}
+
 window.SMWCentral ??= {};
 window.SMWCentral.SPCPlayer ??= {};
+Module.SMWCentral = window.SMWCentral;
 
-SMWCentral.SPCPlayer.Backend = (function()
+window.SMWCentral.SPCPlayer.Backend = (function()
 {
 	const AudioContext = window.AudioContext || window.webkitAudioContext;
 	
@@ -56,7 +62,9 @@ SMWCentral.SPCPlayer.Backend = (function()
 				return;
 			}
 			
-			this.context = new AudioContext();
+			this.context = new AudioContext({
+				sampleRate: 48000
+			});
 			this.gainNode = this.context.createGain();
 			
 			this.rateRatio = 32000 / this.context.sampleRate;
