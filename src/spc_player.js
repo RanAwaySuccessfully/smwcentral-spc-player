@@ -26,6 +26,7 @@
 if (!window) {
 	var window = { clearInterval, clearTimeout, setTimeout, Uint8Array, WebAssembly };
 	window.AudioContext = require("web-audio-engine").StreamAudioContext;
+	Module["quit"] = function() {};
 }
 
 window.SMWCentral ??= {};
@@ -183,7 +184,12 @@ window.SMWCentral.SPCPlayer.Backend = (function()
 		{
 			const {channelBuffers} = this;
 			
-			Module._playSPC(this.bufferPointer, this.lastSample * 2);
+			try {
+				Module._playSPC(this.bufferPointer, this.lastSample * 2);
+			} catch (error) {
+				console.error(error);
+				this.stopSPC();
+			}
 			
 			for(let channel = 0; channel < channelBuffers.length; channel += 1)
 			{
