@@ -31,7 +31,7 @@ OPTIONS='-s NO_EXIT_RUNTIME -s ENVIRONMENT=web'
 INTERFACE='--pre-js  pre/interface.js'
 
 if [ "$2" = "--node" ]; then
-	OPTIONS='-s ENVIRONMENT=node'
+	OPTIONS='-s ENVIRONMENT=node -s NODEJS_CATCH_EXIT=0 -s NODEJS_CATCH_REJECTION=0'
 	INTERFACE=''
 fi
 

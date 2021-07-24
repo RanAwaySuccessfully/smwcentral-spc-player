@@ -82,6 +82,37 @@ You can use any HTML and CSS for the SPC player. Check `src/interface.js` for a 
 
 Building requires the Emscripten SDK. Execute `npm run build` to compile production-ready files in `dist/`, or `npm run build-dev` for an unminified development build.
 
+## Node.js
+
+Execute the `npm run build-node` to compile production-ready files in `dist/`, or `npm run build-node-dev` for an unminified development build. The interface will not be included in the built files, only the backend. After importing the `spc.js` file like so:
+
+```js
+const spc = require("./smwcentral-spc-player/dist/spc.js");
+const backend = spc.SMWCentral.SPCPlayer.Backend;
+```
+
+You'll need to use the backend's methods directly:
+- `backend.initialize()` -> must be called first. only load an SPC once its status is ready (`1`). there is currently no event to listen for when it is done initializing
+- `backend.loadSPC(spc, time)` -> time is optional and used for skipping to a certain timestamp
+- `backend.stopSPC(pause)` -> pause is optional
+- `backend.pause()`
+- `backend.resume()`
+- `backend.getTime()` -> returns `time` (see below)
+- `backend.getVolume()` -> returns `volume` (see below)
+- `backend.setVolume(volume, time)` -> time is optional and used for fading in or out
+
+Argument "types":
+- `pause` -> should be a `Boolean`
+- `spc` -> can be an instance of `Buffer`
+- `time` -> should be a `Number`, representing milliseconds
+- `volume` -> should be a `Number` between `0` and `1.5` (representing 0% to 150% volume)
+
+There are also some properties which will be of use:
+- `backend.status` -> `-2`: not supported, `-1`: error, `0`: not initialized, `1`: ready
+- `backend.context` -> instance of `AudioContext` that contains the audio to be played
+
+Your application will need the package `web-audio-engine` to be installed.
+
 ## License
 
 Released under the [GNU Lesser General Public License v2.1](https://github.com/telinc1/smwcentral-spc-player/blob/master/LICENSE).
