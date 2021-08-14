@@ -25,7 +25,7 @@
 
 if (!window) {
 	var window = { clearInterval, clearTimeout, setTimeout, Uint8Array, WebAssembly };
-	window.AudioContext = require("web-audio-engine").StreamAudioContext;
+	window.webkitAudioContext = 0;
 	Module["quit"] = function() {};
 }
 
@@ -58,12 +58,15 @@ window.SMWCentral.SPCPlayer.Backend = (function()
 		startedAt: 0,
 		initialize()
 		{
-			if(this.status !== 0)
-			{
+			if (this.status !== 0) {
 				return;
 			}
+
+			if (!AudioContext && !this.contextOverride) {
+				throw new Error("No AudioContext override provided on the contextOverride property, which is required when running on Node.js.");
+			}
 			
-			this.context = new AudioContext({
+			this.context = this.contextOverride || new AudioContext({
 				sampleRate: 48000
 			});
 			this.gainNode = this.context.createGain();
