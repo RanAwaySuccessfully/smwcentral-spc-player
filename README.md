@@ -110,8 +110,9 @@ Argument "types":
 There are also some properties which will be of use:
 - `backend.status` -> `-2`: not supported, `-1`: error, `0`: not initialized, `1`: ready
 - `backend.context` -> instance of `AudioContext` that contains the audio to be played
+- `backend.contextOverride` -> instance of `AudioContext` that **you** must supply to the backend before calling `.initialize()`*
 
-Your application will need the package `web-audio-engine` to be installed.
+\* you can use packages like `web-audio-engine` to create an instance of AudioContext
 
 ## License
 
