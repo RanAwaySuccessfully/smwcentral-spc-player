@@ -1,11 +1,11 @@
 {
   "name": "@smwcentral/spc-player",
-  "version": "1.1.2",
+  "version": "1.2.0",
   "description": "SMW Central's SPC player",
   "main": "dist/spc.js",
   "files": [
     "dist/"
-  ],
+  ],  
   "scripts": {
     "build": "./make.sh",
     "build-node": "./make.sh --prod --node",
@@ -23,9 +23,9 @@
   },
   "homepage": "https://github.com/telinc1/smwcentral-spc-player#readme",
   "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/preset-env": "^7.12.11",
-    "sass": "^1.32.4"
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/preset-env": "^7.18.10",
+    "sass": "^1.54.3"
   }
 }
